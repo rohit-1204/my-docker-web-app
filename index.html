@@ -135,4 +135,146 @@
 <body>
 
     <div class="container">
-        <head
+        <header>
+            <h1>♾️ The DevOps Journey</h1>
+            <p>Click a phase in the lifecycle to see the standard tools used in the industry.</p>
+        </header>
+
+        <!-- Navigation buttons will be injected here by JS -->
+        <div class="nav-container" id="nav-container"></div>
+
+        <!-- Dynamic Content will be injected here by JS -->
+        <div class="content-section" id="content-section"></div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Data containing all DevOps phases and tools
+        const devopsData = [
+            {
+                phase: "1. Plan",
+                desc: "Define what to build, track tasks, and manage project sprints.",
+                tools: [
+                    { name: "Jira", logo: "https://cdn.worldvectorlogo.com/logos/jira-1.svg", use: "Agile project management and bug tracking." },
+                    { name: "Confluence", logo: "https://cdn.worldvectorlogo.com/logos/confluence-1.svg", use: "Team collaboration and technical documentation." }
+                ]
+            },
+            {
+                phase: "2. Code",
+                desc: "Write application code and manage version control.",
+                tools: [
+                    { name: "Git", logo: "https://cdn.worldvectorlogo.com/logos/git-icon.svg", use: "Core version control system to track code changes." },
+                    { name: "GitHub", logo: "https://cdn.worldvectorlogo.com/logos/github-icon-1.svg", use: "Cloud-based hosting service for Git repositories." },
+                    { name: "VS Code", logo: "https://cdn.worldvectorlogo.com/logos/visual-studio-code-1.svg", use: "Integrated Development Environment (IDE)." }
+                ]
+            },
+            {
+                phase: "3. Build",
+                desc: "Compile source code into executable artifacts and package them.",
+                tools: [
+                    { name: "Docker", logo: "https://cdn.worldvectorlogo.com/logos/docker.svg", use: "Packages the app and dependencies into a standard container." },
+                    { name: "npm", logo: "https://cdn.worldvectorlogo.com/logos/npm-square-red-1.svg", use: "Node Package Manager for downloading dependencies." }
+                ]
+            },
+            {
+                phase: "4. Test",
+                desc: "Automatically test the code for bugs, security, and quality.",
+                tools: [
+                    { name: "SonarQube", logo: "https://cdn.worldvectorlogo.com/logos/sonarqube-1.svg", use: "Static code analysis to find bugs and code smells." },
+                    { name: "Selenium", logo: "https://cdn.worldvectorlogo.com/logos/selenium-logo.svg", use: "Automates web browsers to perform UI testing." }
+                ]
+            },
+            {
+                phase: "5. Release (CI)",
+                desc: "Continuous Integration: Automate merging, building, and testing.",
+                tools: [
+                    { name: "Jenkins", logo: "https://cdn.worldvectorlogo.com/logos/jenkins-1.svg", use: "Open-source automation server for CI/CD pipelines." },
+                    { name: "GitHub Actions", logo: "https://cdn.worldvectorlogo.com/logos/github-actions-1.svg", use: "Automates software workflows natively inside GitHub." }
+                ]
+            },
+            {
+                phase: "6. Deploy (CD)",
+                desc: "Continuous Deployment: Provision infrastructure and push code to servers.",
+                tools: [
+                    { name: "Terraform", logo: "https://cdn.worldvectorlogo.com/logos/terraform-enterprise.svg", use: "Infrastructure as Code (IaC) to provision cloud servers." },
+                    { name: "Ansible", logo: "https://cdn.worldvectorlogo.com/logos/ansible.svg", use: "Configuration management to install server software." }
+                ]
+            },
+            {
+                phase: "7. Operate",
+                desc: "Run, scale, and maintain the application in a production environment.",
+                tools: [
+                    { name: "Kubernetes", logo: "https://cdn.worldvectorlogo.com/logos/kubernetes.svg", use: "Container orchestration for scaling and auto-healing." },
+                    { name: "AWS", logo: "https://cdn.worldvectorlogo.com/logos/aws-2.svg", use: "Cloud hosting provider for underlying infrastructure." }
+                ]
+            },
+            {
+                phase: "8. Monitor",
+                desc: "Watch performance, collect logs, and alert the team of issues.",
+                tools: [
+                    { name: "Prometheus", logo: "https://cdn.worldvectorlogo.com/logos/prometheus.svg", use: "Collects health and performance metrics from the app." },
+                    { name: "Grafana", logo: "https://cdn.worldvectorlogo.com/logos/grafana.svg", use: "Connects to metrics to display real-time visual dashboards." }
+                ]
+            }
+        ];
+
+        // State to keep track of the currently selected phase
+        let activeIndex = 0;
+
+        // DOM Elements
+        const navContainer = document.getElementById('nav-container');
+        const contentSection = document.getElementById('content-section');
+
+        // Render the top navigation buttons
+        function renderNav() {
+            navContainer.innerHTML = ''; // Clear previous
+            
+            devopsData.forEach((item, index) => {
+                const btn = document.createElement('button');
+                btn.className = `phase-btn ${index === activeIndex ? 'active' : ''}`;
+                btn.textContent = item.phase;
+                btn.onclick = () => {
+                    activeIndex = index;
+                    renderApp(); // Re-render when clicked
+                };
+                navContainer.appendChild(btn);
+            });
+        }
+
+        // Render the tool cards based on the active index
+        function renderContent() {
+            const activeData = devopsData[activeIndex];
+            
+            // Build the tools HTML string
+            let toolsHtml = '';
+            activeData.tools.forEach(tool => {
+                toolsHtml += `
+                    <div class="tool-card">
+                        <img src="${tool.logo}" alt="${tool.name} Logo" class="tool-logo">
+                        <h3 class="tool-name">${tool.name}</h3>
+                        <p class="tool-use">${tool.use}</p>
+                    </div>
+                `;
+            });
+
+            // Update the DOM
+            contentSection.innerHTML = `
+                <h2 class="phase-title">${activeData.phase}</h2>
+                <p class="phase-desc">${activeData.desc}</p>
+                <div class="tools-grid">
+                    ${toolsHtml}
+                </div>
+            `;
+        }
+
+        // Main render function to update everything
+        function renderApp() {
+            renderNav();
+            renderContent();
+        }
+
+        // Initialize the app on page load
+        renderApp();
+    </script>
+</body>
+</html>
