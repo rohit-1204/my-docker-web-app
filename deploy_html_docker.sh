@@ -1,4 +1,3 @@
-cat > deploy_html_docker.sh <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -114,4 +113,3 @@ else
 fi
 
 info "Done ✅"
-EOF
